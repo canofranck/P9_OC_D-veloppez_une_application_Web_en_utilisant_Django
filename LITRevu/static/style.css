@@ -1,0 +1,46 @@
+/* Style pour le titre centré avec un rectangle autour */
+        .titre {
+            text-align: center;
+            border: 2px solid black; /* Rectangle autour du titre */
+            width: 98%; /* Prend toute la largeur de la page */
+            padding: 10px; /* Espacement à l'intérieur du rectangle */
+        }
+
+        /* Style pour le cadre sous le titre */
+        .cadre {
+            border: 2px solid black; /* Cadre autour du contenu */
+            width: 98%;
+            padding: 10px; /* Espacement à l'intérieur du cadre */
+           
+        }
+/* Style pour la section d'inscription */
+.inscription {
+    text-align: center;
+    margin-bottom: 80px;
+    margin-top: 150px;
+}
+
+/* Style pour le titre d'inscription */
+
+
+/* Style pour le bouton d'inscription */
+.inscription button {
+    margin-top: 40px;
+}
+
+/* Style pour la section de connexion */
+.connexion {
+    text-align: center;
+    margin-bottom: 80px;
+    margin-top: 80px;
+}
+
+
+
+/* Style pour le formulaire de connexion */
+.connexion form {
+    margin-top: 40px;
+    margin-bottom: 300px;
+}
+
+/* Ajoutez ici les styles pour les autres éléments si nécessaire */

@@ -1,5 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
     <h2>Page acceuil</h2>
-   
+    {% load static %}
+    <div class="container text-center px-5">
+        <div class="row py-4">
+            <h2>Mon flux</h2>
+        </div>
+        <div class="row justify-content-center py-4">
+            <a class="col-2 btn btn-outline-secondary me-3" href="{% url 'create_ticket' %}">Créer un ticket</a>
+            <a class="col-2 btn btn-outline-secondary ms-3" href="">Créer une critique</a>
+        </div>
+
+    </div>
+    <div class="grid-container">
+        {% for ticket in tickets %}
+            <div class="post">
+                
+                    <h2>titre: {{ ticket.title }}</h2>
+                    <p>Description : {{ ticket.description }}</p>
+                    {% if ticket.image %}
+                    <img class="col-2 text-start border border-secondary" src="{{ ticket.image.url }}"> <!-- Utilisez ticket.image.url pour obtenir l'URL complet de l'image -->
+                    {% endif %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}

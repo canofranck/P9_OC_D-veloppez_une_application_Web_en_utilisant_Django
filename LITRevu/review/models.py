@@ -17,7 +17,8 @@ class Ticket(models.Model):
             return True
         else:
             return False
-
+    def __str__(self):
+        return f'{self.title}'
 
 class Review(models.Model):
     ticket = models.ForeignKey(to=Ticket, on_delete=models.CASCADE,related_name='reviews')
@@ -29,7 +30,8 @@ class Review(models.Model):
     headline = models.CharField(max_length=128)
     body = models.CharField(max_length=8192, blank=True)
     time_created = models.DateTimeField(auto_now_add=True)
-
+    def __str__(self):
+        return f'{self.ticket}'
 
 class UserFollows(models.Model):
     # Your UserFollows model definition goes here

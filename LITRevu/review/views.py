@@ -1,12 +1,17 @@
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+
+from authentication.models import User
 from . import forms, models
+from django.contrib import messages
 
 @login_required
 def home(request):
     ticket= models.Ticket.objects.all()
-    return render(request, 'review/home.html', context={'tickets': ticket})
+    review= models.Review.objects.all()
+    main_user = forms.User.objects.get(username=request.user)
+    return render(request, 'review/home.html', context={'tickets': ticket, 'reviews': review,'user': main_user})
 
 @login_required
 def create_ticket(request):
@@ -60,5 +65,80 @@ def error_delete_ticket(request, ticket_id):
     return render(
         request, 'review/error_delete_ticket.html',
         context={'ticket': ticket})
+    
+@login_required
+def create_review(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    form = forms.ReviewForm()
+    if request.method == 'POST':
+        form = forms.ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
+            return redirect('home')
+    return render(
+        request, 'review/create_review.html',
+        context={'ticket': ticket, 'form': form})
+    
+@login_required
+def follow_users(request):
+    followed_users_ids = models.UserFollows.objects.filter(user=request.user).values_list('followed_user_id', flat=True)
+    followers_ids = models.UserFollows.objects.filter(followed_user=request.user).values_list('user_id', flat=True)
+
+    print("IDs des utilisateurs suivis par l'utilisateur connecté :", followed_users_ids)
+    print("IDs des utilisateurs abonnés à l'utilisateur connecté :", followers_ids)
+
+    followed_users = User.objects.filter(id__in=followed_users_ids).values_list('username', flat=True)
+    followers = User.objects.filter(id__in=followers_ids).values_list('username', flat=True)
+
+    print("Noms d'utilisateur des utilisateurs suivis par l'utilisateur connecté :", followed_users)
+    print("Noms d'utilisateur des utilisateurs abonnés à l'utilisateur connecté :", followers)
+
+
+    if request.method == 'POST':
+        form =forms.FollowUsersForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['follows']
+            try:
+                followed_user = User.objects.get(username=username)
+                if followed_user != request.user:
+                    models.UserFollows.objects.get_or_create(user_id=request.user.id, followed_user_id=followed_user.id)
+                else:
+                    messages.error(request, "Vous ne pouvez pas vous abonner à vous-même.")
+                return redirect('/follow-users/listing/')  
+            except User.DoesNotExist:
+                # Gérez le cas où l'utilisateur n'existe pas
+                pass
+    else:
+        form = forms.FollowUsersForm()
+    context = {
+        'form': form,
+        'followed_users': followed_users,
+        'followers': followers,
+    }
+    return render(request, 'review/follow_users.html', context=context)
+
+
+@login_required
+def delete_follow(request, followed_user):
+    utilisateur_abonnement = get_object_or_404(User, username=followed_user)
+    if request.method == 'POST':
+        # Récupérez l'ID de l'utilisateur suivi
+        utilisateur_abonnement_id = utilisateur_abonnement.id
+        # Supprimez l'abonnement correspondant dans UserFollows
+        abonnement = models.UserFollows.objects.filter(user=request.user, followed_user_id=utilisateur_abonnement_id)
+        abonnement.delete()
+        return redirect('/follow-users/listing/')
+    else:
+        return render(request, 'review/delete_follow.html', context={'followed_user': utilisateur_abonnement})
+
+
+
+
+
+   
+
 
 

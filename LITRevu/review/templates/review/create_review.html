@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% load crispy_forms_tags %}
+    <div class="px-5 py-2 container">
+        <div class="row pt-1 pb-3">
+            <h2 class="col text-center">Créer une critique</h2>
+        </div>
+
+        <div class="row pt-1 pb-3">
+            <div class="px-5 py-2 container border border-2 border-secondary">
+                <div class="row py-2">
+                    <h4 class="col text-start">Vous êtes en train de poster en réponse à {{ticket.user.username}}</h4>
+                </div>
+                <div class="px-5 py-2 container border border-2 border-secondary">
+                    <div class="row py-1">
+                        <p class="col fs-5 text-start">
+                            
+                        </p>
+                        <p class="col text-end fw-light fst-italic">créé le {{ ticket.time_created }}</p>
+                    </div>
+                    <div class="row py-1">
+                        <p class="col text-start">{{ ticket.title }}</p>
+                    </div>
+                    <div class="row py-1">
+                        <p class="col text-start">Description : {{ ticket.description }}</p>
+                    </div>
+                    <div class="row py-1">
+                        {% if ticket.image %}
+                            <img class="col-2 text-start border border-secondary" src="{{ ticket.image.url }}">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row pt-1 pb-3">
+            <div class="px-5 py-2 container border border-2 border-secondary">
+                <div class="row py-2">
+                    <h3 class="col text-center">Critique</h3>
+                </div>
+                <form class="row pt-1 pb-3 justify-content-end" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.non_field_errors }} <!-- Afficher les erreurs non liées à un champ -->
+                    <div class="form-group row">
+                        <label class="col-form-label col-auto">Titre:</label>
+                        <div class="col-auto">
+                            {{ form.headline|as_crispy_field }}
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-form-label col-auto">Description:</label>
+                        <div class="col-auto">
+                            {{ form.body|as_crispy_field }}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        <label class="col-form-label col-auto">Notation:</label>
+                        <div class="col-auto" id="rating-options">
+                            <!-- Affichage manuel du champ de notation avec les choix horizontaux -->
+                            {% for choice in form.rating %}
+                                <div class="rating-option">
+                                    {{ choice.tag }}
+                                    {{ choice.choice_label }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    
+                    
+                    <button class="col-2 btn btn-outline-secondary" type="submit" >Publier</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

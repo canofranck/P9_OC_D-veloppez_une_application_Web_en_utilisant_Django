@@ -7,21 +7,36 @@
             <h2>Mon flux</h2>
         </div>
         <div class="row justify-content-center py-4">
-            <a class="col-2 btn btn-outline-secondary me-3" href="{% url 'create_ticket' %}">Créer un ticket</a>
+            <a class="col-2 btn btn-outline-secondary me-3" href="{% url 'create_ticket' %}">Demander une critique</a>
             <a class="col-2 btn btn-outline-secondary ms-3" href="">Créer une critique</a>
         </div>
 
-    </div>
-    <div class="grid-container">
+    
+    
         {% for ticket in tickets %}
-            <div class="post">
-                
-                    <h2>titre: {{ ticket.title }}</h2>
+            <div class="container text-center px-5">
+                <div class="row  px-5 py-4">
+                    <h3>Demande de critque par {{ticket.user.username}}</h3>
+                </div>
+                    <h5>titre: {{ ticket.title }}</h5>
                     <p>Description : {{ ticket.description }}</p>
                     {% if ticket.image %}
-                    <img class="col-2 text-start border border-secondary" src="{{ ticket.image.url }}"> <!-- Utilisez ticket.image.url pour obtenir l'URL complet de l'image -->
+                    <img class="col-2 text-start border border-secondary" src="{{ ticket.image.url }}">
+                    <a class="col-2 btn btn-outline-secondary" href="{% url 'create_review' ticket.id %}">Creer une critique</a>
                     {% endif %}
             </div>
+                {% if ticket.user_id == user.id %}
+                    {% for review in reviews %}
+                    <p>Rating : {{ review.rating }}</p>
+                    <p>titre: {{ review.headline }}</p>
+                    <p>Description : {{ review.body }}</p>
+                    <p>critque par :  {{ review.user.username }}</p>
+                    {% endfor %}
+                {% endif %}
+
+               
+               
+            
         {% endfor %}
     </div>
 {% endblock content %}

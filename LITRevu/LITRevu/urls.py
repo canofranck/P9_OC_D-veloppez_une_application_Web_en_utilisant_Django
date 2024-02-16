@@ -33,14 +33,12 @@ urlpatterns = [
     path('home/', review.views.home, name='home'),
     path('logout/', authentication.views.logout_user, name='logout'),
     path('ticket/create/', review.views.create_ticket, name='create_ticket'),
-    path('ticket/<int:ticket_id>/edit/', review.views.edit_ticket,
-         name='edit_ticket'),
-     path('ticket/<int:ticket_id>/delete/', review.views.delete_ticket,
-         name='delete_ticket'),
-    path('ticket/<int:ticket_id>/error_change_ticket/',
-         review.views.error_delete_ticket,
-         name='error_delete_ticket'),
-    
+    path('ticket/<int:ticket_id>/edit/', review.views.edit_ticket, name='edit_ticket'),
+    path('ticket/<int:ticket_id>/delete/', review.views.delete_ticket, name='delete_ticket'),
+    path('ticket/<int:ticket_id>/error_change_ticket/', review.views.error_delete_ticket, name='error_delete_ticket'),
+    path('ticket/<int:ticket_id>/review/create/', review.views.create_review, name='create_review'),
+    path('follow-users/listing/',review.views.follow_users, name='follow_users'),
+    path('follow-users/<str:followed_user>/delete', review.views.delete_follow, name='delete_follow'),
 ]
 if settings.DEBUG:
     urlpatterns += static(

@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+{% load crispy_forms_tags %}
+    <div class="px-5 py-2 container">
+        <div class="row pt-1 pb-3">
+            <h2 class="col text-center">Abonnements</h2>
+        </div>
+
+        <div class="row pt-3 pb-1">
+            <h4 class="col text-center">Suivre d'autres utilisateurs</h4>
+        </div>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+        <form class="row pt-1 pb-3 justify-content-center" method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button class="col-2 btn btn-outline-secondary" type="submit" >Confirmer</button>
+        </form>
+
+        <div class="row pt-3 pb-1">
+            <h4 class="col text-center">Abonnements</h4>
+        </div>
+        <div class="row py-1">
+            <div class="px-5 py-2 container">
+                {% for followed_user in followed_users %}
+                    <div class="row border border-secondary">
+                        <p class="col-10">{{ followed_user}}</p>
+                        <a class="col-2 text-center btn btn-outline-secondary" href="{% url 'delete_follow' followed_user %}">Désabonner</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="row pt-3 pb-1">
+            <h4 class="col text-center">Abonnés</h4>
+        </div>
+        <div class="row py-1">
+            <div class="px-5 py-2 container">
+                {% for follower in followers %}
+                    <div class="row border border-secondary">
+                        <p class="col">{{ follower }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="row pt-3 pb-1 justify-content-center">
+            <a class="col-2 btn btn-outline-secondary" href="{% url 'home' %}">Retour au flux</a>
+        </div>
+    </div>
+
+{% endblock content %}

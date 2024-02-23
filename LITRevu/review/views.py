@@ -5,13 +5,35 @@ from django.contrib.auth.decorators import login_required
 from authentication.models import User
 from . import forms, models
 from django.contrib import messages
+from django.db.models import Q
+from itertools import chain
 
 @login_required
 def home(request):
-    ticket= models.Ticket.objects.all()
-    review= models.Review.objects.all()
-    main_user = forms.User.objects.get(username=request.user)
-    return render(request, 'review/home.html', context={'tickets': ticket, 'reviews': review,'user': main_user})
+    main_user_id = request.user.id
+    tickets = models.Ticket.objects.filter(
+        Q(user_id__in=models.UserFollows.objects.filter(followed_user_id=main_user_id).values('user_id')) |
+        Q(user_id=main_user_id)
+    )
+    print(tickets)
+    # ticket= models.Ticket.objects.all()
+    # review= models.Review.objects.all()
+    reviews = models.Review.objects.filter(
+    Q(user_id__in=models.UserFollows.objects.filter(followed_user_id=main_user_id).values('user_id')) |
+    Q(user_id=main_user_id) |
+    Q(ticket__user_id=main_user_id)
+)
+    print(reviews)
+    # main_user = forms.User.objects.get(username=request.user)
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
+     
+    # return render(request, 'review/home.html', context={'tickets': ticket, 'reviews': review,'user': main_user})
+    return render(request, 'review/home.html', context={'tickets_and_reviews': tickets_and_reviews})
+
 
 @login_required
 def create_ticket(request):

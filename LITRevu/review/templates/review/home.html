@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h2>Page acceuil</h2>
-    {% load static %}
+{% load ticket_extras %}
+{% load static %}
     <div class="container text-center px-5">
         <div class="row py-4">
             <h2>Mon flux</h2>
@@ -11,32 +11,20 @@
             <a class="col-2 btn btn-outline-secondary ms-3" href="">Créer une critique</a>
         </div>
 
-    
-    
-        {% for ticket in tickets %}
-            <div class="container text-center px-5">
-                <div class="row  px-5 py-4">
-                    <h3>Demande de critque par {{ticket.user.username}}</h3>
-                </div>
-                    <h5>titre: {{ ticket.title }}</h5>
-                    <p>Description : {{ ticket.description }}</p>
-                    {% if ticket.image %}
-                    <img class="col-2 text-start border border-secondary" src="{{ ticket.image.url }}">
-                    <a class="col-2 btn btn-outline-secondary" href="{% url 'create_review' ticket.id %}">Creer une critique</a>
-                    {% endif %}
-            </div>
-                {% if ticket.user_id == user.id %}
-                    {% for review in reviews %}
-                    <p>Rating : {{ review.rating }}</p>
-                    <p>titre: {{ review.headline }}</p>
-                    <p>Description : {{ review.body }}</p>
-                    <p>critque par :  {{ review.user.username }}</p>
-                    {% endfor %}
-                {% endif %}
-
-               
-               
-            
+        {% for item in tickets_and_reviews %}
+              
+        {% if item|model_type == 'Ticket' %}
+        <div class="row px-5 py-4">
+            <p>BOUCLE TICKET</p>
+            {% include 'review/partials/ticket_partial.html' with ticket=item %}
+        </div> 
+            {% elif item|model_type == 'Review' %}
+                <div class="row px-5 py-4">
+                {% include 'review/partials/review_partial.html' with review=item %}
+                
+            </div>  
+            {% endif %}
         {% endfor %}
+    
     </div>
 {% endblock content %}

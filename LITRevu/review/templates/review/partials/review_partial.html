@@ -1,0 +1,25 @@
+{% load ticket_extras %}
+{% load static %}
+<div class="px-5 py-2 container border border-2 border-secondary">
+  <div class="row py-1">
+    <p class="col fs-5 text-start"></p>
+    <div class="row px-5 py-4">
+      <p>critique par {{ review.user.username }}</p>
+      <p class="col text-end fw-light fst-italic">
+        posté le {{ review.time_created }}
+      </p>
+    </div>
+  </div>
+  <div class="row py-1">
+    <p>Rating : {{ review.rating }}</p>
+  </div>
+  <div class="row py-1">
+    <p>Titre: {{ review.headline }}</p>
+  </div>
+  <div class="row py-1">
+    <p>Description : {{ review.body }}</p>
+  </div>
+  <div class="row py-1">
+    <p>Critique par : {{ review.user.username }}</p>
+  </div>
+</div>

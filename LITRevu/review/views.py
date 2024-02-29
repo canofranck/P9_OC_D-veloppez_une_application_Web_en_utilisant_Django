@@ -7,6 +7,8 @@ from . import forms, models
 from django.contrib import messages
 from django.db.models import Q
 from itertools import chain
+from django.db.models import Avg
+
 
 @login_required
 def home(request):
@@ -22,7 +24,7 @@ def home(request):
     Q(user_id__in=models.UserFollows.objects.filter(followed_user_id=main_user_id).values('user_id')) |
     Q(user_id=main_user_id) |
     Q(ticket__user_id=main_user_id)
-)
+).annotate(avg_rating=Avg('rating'))  # Annotate each review with the average rating
     print(reviews)
     # main_user = forms.User.objects.get(username=request.user)
     tickets_and_reviews = sorted(
@@ -89,20 +91,77 @@ def error_delete_ticket(request, ticket_id):
         context={'ticket': ticket})
     
 @login_required
+def ticket_detail(request, ticket_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    return render(
+        request, 'review/ticket_detail.html',
+        context={'ticket': ticket})
+    
+@login_required
 def create_review(request, ticket_id):
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
     form = forms.ReviewForm()
     if request.method == 'POST':
         form = forms.ReviewForm(request.POST)
         if form.is_valid():
+            rating_value = int(request.POST.get('rating', 0))
             review = form.save(commit=False)
             review.user = request.user
+            review.rating = rating_value
             review.ticket = ticket
             review.save()
             return redirect('home')
     return render(
         request, 'review/create_review.html',
         context={'ticket': ticket, 'form': form})
+    
+@login_required
+def edit_review(request, ticket_id, review_id):
+    review = get_object_or_404(models.Review, id=review_id)
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    form = forms.ReviewForm(instance=review)
+    if review:
+        if review.user != request.user:
+            return redirect('error_change_review', ticket.id, review.id)
+        else:
+
+            if request.method == 'POST':
+                form = forms.ReviewForm(request.POST, instance=review)
+                if form.is_valid():
+                    review = form.save(commit=False)
+                    review.user = request.user
+                    review.ticket = ticket
+                    review.save()
+                    return redirect('post_edit')
+    return render(
+        request, 'review/edit_review.html',
+        context={'ticket': ticket, 'review': review, 'form': form})
+
+@login_required
+def delete_review(request, ticket_id, review_id):
+    review = get_object_or_404(models.Review, id=review_id)
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+
+    if review:
+        if review.user != request.user:
+            return redirect('error_change_review', ticket.id, review.id)
+        else:
+
+            if request.method == 'POST':
+                review.delete()
+                return redirect('post_edit')
+
+    return render(
+        request, 'review/delete_review.html',
+        context={'ticket': ticket, 'review': review})  
+    
+@login_required
+def review_detail(request, ticket_id, review_id):
+    ticket = get_object_or_404(models.Ticket, id=ticket_id)
+    review = get_object_or_404(models.Review, id=review_id)
+    return render(
+        request, 'review/review_detail.html',
+        context={'ticket': ticket, 'review': review})
     
 @login_required
 def follow_users(request):
@@ -157,6 +216,19 @@ def delete_follow(request, followed_user):
         return render(request, 'review/delete_follow.html', context={'followed_user': utilisateur_abonnement})
 
 
+@login_required
+def post_edit(request):
+    tickets = models.Ticket.objects.filter(user=request.user)
+    reviews = models.Review.objects.filter(user=request.user)
+
+    tickets_and_reviews = sorted(
+        chain(tickets, reviews),
+        key=lambda instance: instance.time_created,
+        reverse=True
+    )
+
+    context = {'tickets_and_reviews': tickets_and_reviews}
+    return render(request, 'review/post_edit.html', context=context)
 
 
 

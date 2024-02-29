@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from django.contrib.auth.views import LoginView,LogoutView
 import authentication.views
 import review.views
@@ -37,8 +37,17 @@ urlpatterns = [
     path('ticket/<int:ticket_id>/delete/', review.views.delete_ticket, name='delete_ticket'),
     path('ticket/<int:ticket_id>/error_change_ticket/', review.views.error_delete_ticket, name='error_delete_ticket'),
     path('ticket/<int:ticket_id>/review/create/', review.views.create_review, name='create_review'),
+    path('ticket/<int:ticket_id>/review/<int:review_id>/edit/',review.views.edit_review, name='edit_review'),
+    path('ticket/<int:ticket_id>/review/<int:review_id>/delete/',review.views.delete_review, name='delete_review'),
+    path('ticket/<int:ticket_id>/detail/',review.views.ticket_detail, name='ticket_detail'),
+    path('ticket/<int:ticket_id>/review/<int:review_id>/detail/',review.views.review_detail, name='review_detail'),
     path('follow-users/listing/',review.views.follow_users, name='follow_users'),
     path('follow-users/<str:followed_user>/delete', review.views.delete_follow, name='delete_follow'),
+    path('ratings/', include('star_ratings.urls', namespace='ratings')),
+    
+    
+    
+    path('post-edit/', review.views.post_edit, name='post_edit'),
 ]
 if settings.DEBUG:
     urlpatterns += static(

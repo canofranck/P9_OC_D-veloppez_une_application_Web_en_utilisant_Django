@@ -32,6 +32,7 @@ urlpatterns = [
     path('signup/', authentication.views.signup_page, name='signup'),
     path('home/', review.views.home, name='home'),
     path('logout/', authentication.views.logout_user, name='logout'),
+    path('profile-photo/upload/', authentication.views.upload_profile_photo,name='upload_profile_photo'),
     path('ticket/create/', review.views.create_ticket, name='create_ticket'),
     path('ticket/<int:ticket_id>/edit/', review.views.edit_ticket, name='edit_ticket'),
     path('ticket/<int:ticket_id>/delete/', review.views.delete_ticket, name='delete_ticket'),

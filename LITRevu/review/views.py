@@ -111,6 +111,9 @@ def create_review(request, ticket_id):
             review.ticket = ticket
             review.save()
             return redirect('home')
+        else:
+            # Afficher les erreurs dans le formulaire
+            print(form.errors)
     return render(
         request, 'review/create_review.html',
         context={'ticket': ticket, 'form': form})

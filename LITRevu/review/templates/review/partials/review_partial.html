@@ -4,7 +4,7 @@
 <div class="px-5 py-2 container border border-2 border-secondary">
   <div class="row py-1">
     <div class="col text-start">
-        <p>critique par {{ review.user.username }}</p>
+        <p>critique par {% get_poster_display review.user%}</p>
     </div>
     <div class="col text-end">
         <p class="fw-light fst-italic">posté le {{ review.time_created }}</p>

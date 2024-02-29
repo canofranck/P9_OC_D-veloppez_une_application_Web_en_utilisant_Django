@@ -18,13 +18,13 @@
                     <div class="row py-1">
                         <p class="col fs-5 text-start">
                             <a class="col link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover" href="{% url 'ticket_detail' ticket.id %}">
-                                Critique demandée par {{ticket.user }}
+                                Critique demandée par {% get_poster_display ticket.user %}
                             </a>
                         </p>
                         <p class="col text-end fw-light fst-italic">édité le {{ ticket.time_created }}</p>
                     </div>
                     <div class="row py-1">
-                        <p class="col text-start">{{ ticket.title }} - {{ ticket.author }}</p>
+                        <p class="col text-start">{{ ticket.title }}</p>
                     </div>
                     <div class="row py-1">
                         <p class="col text-start">Description : {{ ticket.description }}</p>

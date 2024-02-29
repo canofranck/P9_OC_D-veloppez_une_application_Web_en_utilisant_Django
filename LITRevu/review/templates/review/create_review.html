@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-
+{% load ratings %}
 {% load crispy_forms_tags %}
     <div class="px-5 py-2 container">
         <div class="row pt-1 pb-3">
@@ -65,6 +65,7 @@
                                     {{ choice.choice_label }}
                                 </div>
                             {% endfor %}
+                            <!-- {% ratings ticket%} -->
                         </div>
                         
                     </div>

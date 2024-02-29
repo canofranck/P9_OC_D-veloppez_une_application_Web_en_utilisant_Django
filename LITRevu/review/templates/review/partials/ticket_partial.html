@@ -2,7 +2,7 @@
 {% load static %}
 <div class="px-5 py-2 container border border-2 border-secondary">
     <div class="row py-1">
-        <h3>Demande de critique par {{ ticket.user.username }}</h3>
+        <h3>Demande de critique par {% get_poster_display ticket.user %}</h3>
         <p class="col text-end fw-light fst-italic">posté le {{ ticket.time_created }}</p>
     </div>
     <div class="row py-1">
@@ -17,7 +17,12 @@
         
     {% endif %}
     </div>
-    <div class="row justify-content-end py-1">
-    <a class="col-2 btn btn-outline-secondary" href="{% url 'create_review' ticket.id %}">Créer une critique</a>
-    </div>
+    {% if user.is_authenticated %}
+    {% if not ticket.has_review and ticket.user != user %}
+        <div class="row justify-content-end py-1">
+            <a class="col-2 btn btn-outline-secondary" href="{% url 'create_review' ticket.id %}">Créer une critique</a>
+        </div>
+    {% endif %}
+{% endif %}
+
 </div>

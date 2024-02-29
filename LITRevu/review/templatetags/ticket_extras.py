@@ -13,3 +13,9 @@ def get_range(value):
 @register.filter
 def get_complement(value):
     return range(5 - value)
+
+@register.simple_tag(takes_context=True)
+def get_poster_display(context, user):
+    if user == context['user']:
+        return 'vous'
+    return user.username

@@ -17,12 +17,12 @@
         
     {% endif %}
     </div>
-    {% if user.is_authenticated %}
+    
     {% if not ticket.has_review and ticket.user != user %}
         <div class="row justify-content-end py-1">
             <a class="col-2 btn btn-outline-secondary" href="{% url 'create_review' ticket.id %}">Créer une critique</a>
         </div>
     {% endif %}
-{% endif %}
+
 
 </div>

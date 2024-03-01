@@ -12,19 +12,19 @@ from django.db.models import Avg
 
 @login_required
 def home(request):
-    main_user_id = request.user.id
+    current_user_id = request.user.id
     tickets = models.Ticket.objects.filter(
-        Q(user_id__in=models.UserFollows.objects.filter(followed_user_id=main_user_id).values('user_id')) |
-        Q(user_id=main_user_id)
+        Q(user_id__in=models.UserFollows.objects.filter(user_id=current_user_id).values('followed_user_id')) |
+        Q(user_id=current_user_id)
     )
     print(tickets)
     # ticket= models.Ticket.objects.all()
     # review= models.Review.objects.all()
     reviews = models.Review.objects.filter(
-    Q(user_id__in=models.UserFollows.objects.filter(followed_user_id=main_user_id).values('user_id')) |
-    Q(user_id=main_user_id) |
-    Q(ticket__user_id=main_user_id)
-).annotate(avg_rating=Avg('rating'))  # Annotate each review with the average rating
+    Q(user_id__in=models.UserFollows.objects.filter(user_id=current_user_id).values('followed_user_id')) |
+    Q(user_id=current_user_id) |
+    Q(ticket__user_id=current_user_id)
+)
     print(reviews)
     # main_user = forms.User.objects.get(username=request.user)
     tickets_and_reviews = sorted(

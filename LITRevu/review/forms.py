@@ -12,16 +12,8 @@ class TicketForm(forms.ModelForm):
         fields = ['title', 'description', 'image']
         
 class ReviewForm(forms.ModelForm):
-    ratings = [
-        ('0',"0"),
-        ('1', "1"),
-        ('2', "2"),
-        ('3', "3"),
-        ('4', "4"),
-        ('5', "5")
-    ]
-    rating = forms.ChoiceField(
-        label='notation', choices=ratings, widget=forms.RadioSelect(attrs={'inline': True}))
+  
+    rating = forms.IntegerField(label='Notation', widget=forms.HiddenInput(), required=True)
     body = forms.CharField(label='comments', widget=forms.Textarea)
     class Meta:
         model = models.Review

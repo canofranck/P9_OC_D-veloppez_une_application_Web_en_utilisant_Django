@@ -45,7 +45,21 @@
                 </div>
                 <form class="row pt-1 pb-3 justify-content-end" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form|crispy }}
+                    {{ form.headline.label_tag }}
+                    {{ form.headline }}
+                    <br>
+                    {{ form.body.label_tag }}
+                    {{ form.body }}
+                    <br>
+
+                    <!-- Affichage des étoiles -->
+                    <div class="rating-stars" id="ratingStars">
+                        {% for i in "*****" %}
+                            <span class="star" data-rating="{{ forloop.counter }}">{{ '&#9733;' }}</span>
+                        {% endfor %}
+                    </div>
+                
+                    <input type="hidden" name="rating" id="ratingInput" value="{{ review.rating }}">
                     <button class="col-2 btn btn-outline-secondary" type="submit" >Modifier</button>
                 </form>
             </div>

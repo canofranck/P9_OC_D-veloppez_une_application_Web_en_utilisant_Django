@@ -44,7 +44,8 @@ urlpatterns = [
     path('ticket/<int:ticket_id>/review/<int:review_id>/detail/',review.views.review_detail, name='review_detail'),
     path('follow-users/listing/',review.views.follow_users, name='follow_users'),
     path('follow-users/<str:followed_user>/delete', review.views.delete_follow, name='delete_follow'),
-    path('ratings/', include('star_ratings.urls', namespace='ratings')),
+    path('ticket/create-with-review/', review.views.create_ticket_and_review,
+         name='create_ticket_and_review'),
     
     
     

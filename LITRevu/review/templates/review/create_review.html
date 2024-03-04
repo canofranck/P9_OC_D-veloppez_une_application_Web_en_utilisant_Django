@@ -58,17 +58,15 @@
                     <div class="form-group row">
                         <label class="col-form-label col-auto">Notation:</label>
                         <div class="col-auto" id="rating-options">
-                            <!-- Affichage manuel du champ de notation avec les choix horizontaux -->
-                            {% for choice in form.rating %}
-                                <div class="rating-option">
-                                    {{ choice.tag }}
-                                    {{ choice.choice_label }}
-                                  
-                                </div>
-                            {% endfor %}
-                          
-                        </div>
+                            <!-- Affichage des étoiles -->
+                            <div class="rating-stars" id="ratingStars">
+                                {% for i in "*****" %}
+                                    <span class="star" data-rating="{{ forloop.counter }}">{{ '&#9733;' }}</span>
+                                {% endfor %}
+                            </div>
                         
+                            <input type="hidden" name="rating" id="ratingInput" value="{{ review.rating }}">
+                        </div>
                     </div>
                     
                     
@@ -78,3 +76,5 @@
         </div>
     </div>
 {% endblock content %}
+
+

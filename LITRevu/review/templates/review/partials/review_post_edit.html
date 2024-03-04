@@ -1,7 +1,7 @@
 {% load ticket_extras %}
-{% load ratings %}
+
 {% load static %}
-<div class="px-5 py-2 container border border-2 border-secondary">
+<div class="px-5 py-2 container border border-2 border-dark rounded-4">
   <div class="row py-1">
     <div class="col text-start">
         <p>critique par {% get_poster_display review.user%}</p>
@@ -13,11 +13,12 @@
 
 <div class="row py-1">
     <p class="text-start">Titre: {{ review.headline }} 
-        {% for i in review.rating|get_range %}
-            <span class="star-filled">&#9733;</span>
-        {% endfor %}
-        {% for i in review.rating|get_complement %}
-            <span class="star-empty">&#9734;</span>
+        {% for star in "*****" %}
+            {% if forloop.counter <= review.rating %}
+                <span  class="etoile" style="color: yellow;">&#9733;</span>
+            {% else %}
+                <span class="etoile"> &#9734;</span>
+            {% endif %}
         {% endfor %}
     </p>
 </div>
@@ -27,7 +28,7 @@
     </div>
     
     <div class="row py-1">
-        <div class="px-5 py-2 container border border-2 border-secondary"> 
+        <div class="px-5 py-2 container border border-2 border-dark rounded-4">
             
             <div class="row py-1">
               <div class="col text-start">
@@ -46,7 +47,7 @@
             </div>  
             <div class="row py-1">
                 {% if review.ticket.image %}
-                    <img class="col-2 text-start border border-secondary" src="{{ review.ticket.image.url }}">
+                    <img class="col-2 text-start border border-dark rounded-4" src="{{ review.ticket.image.url }}">
                 {% endif %}
             </div>
         </div>

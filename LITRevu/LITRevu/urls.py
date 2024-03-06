@@ -32,11 +32,11 @@ urlpatterns = [
     path('signup/', authentication.views.signup_page, name='signup'),
     path('home/', review.views.home, name='home'),
     path('logout/', authentication.views.logout_user, name='logout'),
-    path('profile-photo/upload/', authentication.views.upload_profile_photo,name='upload_profile_photo'),
+    path('profile_photo/upload/', authentication.views.upload_profile_photo,name='upload_profile_photo'),
     path('ticket/create/', review.views.create_ticket, name='create_ticket'),
     path('ticket/<int:ticket_id>/edit/', review.views.edit_ticket, name='edit_ticket'),
     path('ticket/<int:ticket_id>/delete/', review.views.delete_ticket, name='delete_ticket'),
-    path('ticket/<int:ticket_id>/error_change_ticket/', review.views.error_delete_ticket, name='error_delete_ticket'),
+    path('ticket/<int:ticket_id>/error_delete_ticket/', review.views.error_delete_ticket, name='error_delete_ticket'),
     path('ticket/<int:ticket_id>/review/create/', review.views.create_review, name='create_review'),
     path('ticket/<int:ticket_id>/review/<int:review_id>/edit/',review.views.edit_review, name='edit_review'),
     path('ticket/<int:ticket_id>/review/<int:review_id>/delete/',review.views.delete_review, name='delete_review'),
@@ -44,11 +44,8 @@ urlpatterns = [
     path('ticket/<int:ticket_id>/review/<int:review_id>/detail/',review.views.review_detail, name='review_detail'),
     path('follow-users/listing/',review.views.follow_users, name='follow_users'),
     path('follow-users/<str:followed_user>/delete', review.views.delete_follow, name='delete_follow'),
-    path('ticket/create-with-review/', review.views.create_ticket_and_review,
-         name='create_ticket_and_review'),
-    
-    
-    
+    path('ticket/create_ticket_and_review/', review.views.create_ticket_and_review,
+         name='create_ticket_and_review'),    
     path('post-edit/', review.views.post_edit, name='post_edit'),
 ]
 if settings.DEBUG:

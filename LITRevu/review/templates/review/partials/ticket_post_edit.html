@@ -1,15 +1,19 @@
-{% load ticket_extras %}
+{% load review_extras %}
 {% load static %}
 <div class="px-5 py-2 container border border-2 border-dark rounded-4">
-    <div class="row py-1">
-        <h3>Demande de critique par {% get_poster_display ticket.user%}</h3>
-        <p class="col text-end fw-light fst-italic">posté le {{ ticket.time_created }}</p>
+     <div class="row py-1">
+        <div class="col text-start">
+        <h5>Demande de critique par {% get_poster_display ticket.user %}</h3>
+        </div>
+        <div class="col text-end">
+        <p class="fw-light fst-italic">posté le {{ ticket.time_created }}</p>
+        </div>
     </div>
     <div class="row py-1">
-        <h5>Titre: {{ ticket.title }}</h5>
+        <h5 class="text-start">Titre: {{ ticket.title }}</h5>
     </div>
     <div class="row py-1">
-        <p>Description : {{ ticket.description }}</p>
+        <p class="text-start">Description : {{ ticket.description }}</p>
     </div>  
     <div class="row py-1">
     {% if ticket.image %}

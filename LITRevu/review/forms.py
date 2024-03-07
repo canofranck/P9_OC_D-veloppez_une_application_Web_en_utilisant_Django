@@ -7,6 +7,15 @@ User = get_user_model()
 
 
 class TicketForm(forms.ModelForm):
+    """Formulaire pour la création de tickets.
+
+    Ce formulaire est utilisé pour créer de nouveaux tickets dans le système.
+    Il inclut les champs titre, description et image.
+
+    Attributes:
+        description: Champ de texte multiligne pour la description du ticket.
+    """
+
     description = forms.CharField(label="description", widget=forms.Textarea)
 
     class Meta:
@@ -15,6 +24,15 @@ class TicketForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
+    """Formulaire pour la création de critiques.
+
+    Ce formulaire est utilisé pour créer de nouvelles critiques associées à un ticket.
+    Il inclut les champs titre, notation et commentaire.
+
+    Attributes:
+        rating: Champ caché pour la notation de la critique.
+        body: Champ de texte multiligne pour le commentaire de la critique.
+    """
 
     rating = forms.IntegerField(
         label="Notation", widget=forms.HiddenInput(), required=True
@@ -27,6 +45,15 @@ class ReviewForm(forms.ModelForm):
 
 
 class FollowUsersForm(forms.ModelForm):
+    """Formulaire pour suivre d'autres utilisateurs.
+
+    Ce formulaire est utilisé pour permettre à un utilisateur de suivre un autre utilisateur.
+    Il inclut un champ pour entrer le nom d'utilisateur à suivre.
+
+    Attributes:
+        follows: Champ de texte pour saisir le nom d'utilisateur à suivre.
+    """
+
     follows = forms.CharField(
         label="",
         max_length=128,
@@ -40,6 +67,16 @@ class FollowUsersForm(forms.ModelForm):
         fields = ["follows"]
 
     def clean_follows(self):
+        """Valide le nom d'utilisateur à suivre.
+
+        Cette méthode vérifie si le nom d'utilisateur entré existe dans la base de données.
+        Si l'utilisateur n'existe pas, une ValidationError est levée.
+
+        Returns:
+            str: Le nom d'utilisateur à suivre, s'il est valide.
+        Raises:
+            forms.ValidationError: Si l'utilisateur à suivre n'existe pas.
+        """
         follows = self.cleaned_data["follows"]
 
         if not User.objects.filter(username=follows):

@@ -1,4 +1,16 @@
 
+body {
+    background-image: url('{% static "images/Bibliotheque-de-livres.jpg" %}');
+    background-size: cover; /* Ajuster la taille de l'image pour couvrir tout le conteneur */
+    background-position: center; /* Centrer l'image */
+    /* Ajoutez d'autres styles CSS selon vos besoins */
+}
 
+.background-container {
+    background-image: url('{% static "images/Bibliotheque-de-livres.jpg" %}');
+    background-size: cover;
+    background-position: center;
+    /* Ajoutez d'autres styles CSS selon vos besoins */
+}
 
 

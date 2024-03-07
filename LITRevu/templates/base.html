@@ -14,7 +14,8 @@
         <script type="text/javascript" src="{% static 'js/star-ratings.min.js' %}"></script>
 
         <title>LITRevue</title>
-    </head>
+    </head> 
+    <body>
     <div class="container-fluid border border-2 border-dark rounded-4 ml-3 p-0">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
@@ -48,7 +49,8 @@
         {% endif %}
     </nav>
     </div>
-    <div class="container-fluid border border-2 border-dark rounded-4 p-0">
+    <div class="container-fluid border border-2 border-dark rounded-4 ml-3 p-0 background-container">
+
         {% block content %}{% endblock content %}
     </div>
 </div>

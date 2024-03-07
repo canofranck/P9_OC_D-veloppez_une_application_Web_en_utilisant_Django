@@ -4,6 +4,7 @@
     <div class="col text-start">
       <p>critique par {% get_poster_display review.user%}</p>
     </div>
+
     <div class="col text-end">
       <p class="fw-light fst-italic">posté le {{ review.time_created }}</p>
     </div>
@@ -11,8 +12,8 @@
 
   <div class="row py-1">
     <p class="text-start">
-      Titre: {{ review.headline }} {% for star in "*****" %} {% if
-      forloop.counter <= review.rating %}
+      Titre: {{ review.headline }} {% for star in "*****" %} 
+      {% if forloop.counter <= review.rating %}
       <span class="etoile" style="color: yellow">&#9733;</span>
       {% else %}
       <span class="etoile"> &#9734;</span>

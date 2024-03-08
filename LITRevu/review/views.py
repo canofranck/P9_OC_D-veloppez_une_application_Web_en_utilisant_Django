@@ -9,24 +9,11 @@ from itertools import chain
 
 # from django.db.models import Avg
 
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 @login_required
 def home(request):
-    """Affiche la page d'accueil.
-
-    Cette fonction récupère les tickets et les critiques associés à l'utilisateur connecté
-    et les affiche sur la page d'accueil. Les tickets et les critiques sont triés par ordre
-    décroissant de leur date de création.
-
-    Args:
-        request (HttpRequest): L'objet de requête HTTP Django.
-
-    Returns:
-        HttpResponse: La réponse HTTP contenant la page d'accueil avec les tickets et les critiques.
-
-    Raises:
-        Aucune exception n'est levée.
-    """
     current_user_id = request.user.id
     tickets = models.Ticket.objects.filter(
         Q(
@@ -36,9 +23,7 @@ def home(request):
         )
         | Q(user_id=current_user_id)
     )
-    print(tickets)
-    # ticket= models.Ticket.objects.all()
-    # review= models.Review.objects.all()
+
     reviews = models.Review.objects.filter(
         Q(
             user_id__in=models.UserFollows.objects.filter(
@@ -48,15 +33,23 @@ def home(request):
         | Q(user_id=current_user_id)
         | Q(ticket__user_id=current_user_id)
     )
-    print(reviews)
-    # main_user = forms.User.objects.get(username=request.user)
+
     tickets_and_reviews = sorted(
         chain(tickets, reviews),
         key=lambda instance: instance.time_created,
         reverse=True,
     )
 
-    # return render(request, 'review/home.html', context={'tickets': ticket, 'reviews': review,'user': main_user})
+    paginator = Paginator(tickets_and_reviews, 10)  # Nombre d'éléments par page
+
+    page_number = request.GET.get("page")
+    try:
+        tickets_and_reviews = paginator.page(page_number)
+    except PageNotAnInteger:
+        tickets_and_reviews = paginator.page(1)
+    except EmptyPage:
+        tickets_and_reviews = paginator.page(paginator.num_pages)
+
     return render(
         request,
         "review/home.html",

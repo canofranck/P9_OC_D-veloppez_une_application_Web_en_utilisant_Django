@@ -3,40 +3,42 @@
 {% load review_extras %}
 {% load static %}
 <div class="container text-center px-5">
-  <div class="row py-4">
-    <h2>Mon flux</h2>
+  <!-- Début du conteneur avec fond blanc -->
+  <div class="white-background"> 
+    <div class="row py-4">
+      <h2>Mon flux</h2>
+    </div>
+    <div class="row justify-content-center py-4">
+      <a
+        class="col-2 btn btn-outline-secondary me-3"
+        href="{% url 'create_ticket' %}"
+        >Demander une critique</a
+      >
+      <a
+        class="col-2 btn btn-outline-secondary ms-3"
+        href="{% url 'create_ticket_and_review' %}"
+        >Créer une critique</a
+      >
+    </div>
+    <div id="ticketsAndReviewsContainer">
+    {% for item in tickets_and_reviews %}
+     {% if item|model_type == 'Ticket' %}
+    <div class="row px-5 py-4">
+      {% include 'review/partials/ticket_partial.html' with ticket=item %}
+    </div>
+    {% elif item|model_type == 'Review' %}
+    <div class="row px-5 py-4">
+      {% include 'review/partials/review_partial.html' with review=item %}
+    </div>
+    {% endif %}
+    {% endfor %}
   </div>
-  <div class="row justify-content-center py-4">
-    <a
-      class="col-2 btn btn-outline-secondary me-3"
-      href="{% url 'create_ticket' %}"
-      >Demander une critique</a
-    >
-    <a
-      class="col-2 btn btn-outline-secondary ms-3"
-      href="{% url 'create_ticket_and_review' %}"
-      >Créer une critique</a
-    >
-  </div>
-  <div id="ticketsAndReviewsContainer">
-  {% for item in tickets_and_reviews %}
-   {% if item|model_type == 'Ticket' %}
-  <div class="row px-5 py-4">
-    {% include 'review/partials/ticket_partial.html' with ticket=item %}
-  </div>
-  {% elif item|model_type == 'Review' %}
-  <div class="row px-5 py-4">
-    {% include 'review/partials/review_partial.html' with review=item %}
-  </div>
-  {% endif %}
-  {% endfor %}
-</div>
-  {% if tickets_and_reviews.has_next %}
-  <div class="row justify-content-center py-4">
-    <button id="loadMoreBtn" class="btn btn-outline-primary">Afficher plus</button>
-  </div>
-  {% endif %}
-  
+    {% if tickets_and_reviews.has_next %}
+    <div class="row justify-content-center py-4">
+      <button id="loadMoreBtn" class="col-2 btn btn-outline-secondary me-3">Afficher plus</button>
+    </div>
+    {% endif %}
+  </div> <!-- Fin du conteneur avec fond blanc -->
 </div>
 
 <script>
@@ -63,5 +65,5 @@
         .catch(error => console.error("Error fetching data:", error));
     });
   });
-  </script>
-  {% endblock content %}
+</script>
+{% endblock content %}

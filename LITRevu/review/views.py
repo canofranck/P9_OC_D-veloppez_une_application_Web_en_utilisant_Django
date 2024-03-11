@@ -40,7 +40,7 @@ def home(request):
         reverse=True,
     )
 
-    paginator = Paginator(tickets_and_reviews, 10)  # Nombre d'éléments par page
+    paginator = Paginator(tickets_and_reviews, 3)  # Nombre d'éléments par page
 
     page_number = request.GET.get("page")
     try:

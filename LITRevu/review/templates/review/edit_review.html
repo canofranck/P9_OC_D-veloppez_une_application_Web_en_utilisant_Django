@@ -1,6 +1,7 @@
 {% extends 'base.html' %} {% block content %} {% load review_extras %} {% load
 crispy_forms_tags %}
 <div class="px-5 py-2 container">
+  <div class="white-background"> 
   <div class="row pt-1 pb-3">
     <h2 class="col text-center">
       Modification de la critique concernant le ticket {{ ticket.title }}
@@ -8,13 +9,13 @@ crispy_forms_tags %}
   </div>
 
   <div class="row pt-1 pb-3">
-    <div class="px-5 py-2 container border border-2 border-secondary">
+    <div class="px-5 py-2 container border border-2 border-dark rounded-4">
       <div class="row py-2">
         <h4 class="col text-start">
-          Vous êtes en train de poster en réponse à
+          Vous êtes en train de poster en réponse à {{ticket.user}}
         </h4>
       </div>
-      <div class="px-5 py-2 container border border-2 border-secondary">
+      <div class="px-5 py-2 container border border-2 border-dark rounded-4">
         <div class="row py-1">
           <p class="col fs-5 text-start">
             <a
@@ -47,7 +48,7 @@ crispy_forms_tags %}
   </div>
 
   <div class="row pt-1 pb-3">
-    <div class="px-5 py-2 container border border-2 border-secondary">
+    <div class="px-5 py-2 container border border-2 border-dark rounded-4">
       <div class="row py-2">
         <h3 class="col text-center">Critique</h3>
       </div>
@@ -82,5 +83,6 @@ crispy_forms_tags %}
       </form>
     </div>
   </div>
+</div>
 </div>
 {% endblock content %}

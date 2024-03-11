@@ -16,7 +16,7 @@
       Titre: {{ review.headline }}
       {% for star in "*****" %} 
       {% if forloop.counter <= review.rating %}
-      <span class="etoile" style="color: yellow">&#9733;</span>
+      <span class="etoile" style="color: yellow; font-size: 24px">&#9733;</span>
       {% else %}
       <span class="etoile"> &#9734;</span>
       {% endif %}

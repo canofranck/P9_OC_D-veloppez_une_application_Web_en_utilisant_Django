@@ -29,7 +29,8 @@ urlpatterns = [
     path(
         "",
         LoginView.as_view(
-            template_name="authentication/login.html", redirect_authenticated_user=True
+            template_name="authentication/login.html",
+            redirect_authenticated_user=True,
         ),
         name="login",
     ),
@@ -42,7 +43,11 @@ urlpatterns = [
         name="upload_profile_photo",
     ),
     path("ticket/create/", review.views.create_ticket, name="create_ticket"),
-    path("ticket/<int:ticket_id>/edit/", review.views.edit_ticket, name="edit_ticket"),
+    path(
+        "ticket/<int:ticket_id>/edit/",
+        review.views.edit_ticket,
+        name="edit_ticket",
+    ),
     path(
         "ticket/<int:ticket_id>/delete/",
         review.views.delete_ticket,
@@ -69,16 +74,8 @@ urlpatterns = [
         name="delete_review",
     ),
     path(
-        "ticket/<int:ticket_id>/detail/",
-        review.views.ticket_detail,
-        name="ticket_detail",
+        "follow-users/listing/", review.views.follow_users, name="follow_users"
     ),
-    path(
-        "ticket/<int:ticket_id>/review/<int:review_id>/detail/",
-        review.views.review_detail,
-        name="review_detail",
-    ),
-    path("follow-users/listing/", review.views.follow_users, name="follow_users"),
     path(
         "follow-users/<str:followed_user>/delete",
         review.views.delete_follow,
@@ -89,7 +86,9 @@ urlpatterns = [
         review.views.create_ticket_and_review,
         name="create_ticket_and_review",
     ),
-    path("post-edit/", review.views.post_edit, name="post_edit"),
+    path("edit_post/", review.views.edit_post, name="edit_post"),
 ]
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+    )

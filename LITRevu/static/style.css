@@ -1,14 +1,23 @@
+
+
+
 body {
     background-image: url("/static/images/fond.jpg");
     background-size: cover;
-
+  
 
     background-position: center;
    
 
-    /* Ajoutez d'autres styles CSS selon vos besoins */
 }
+p {
+    font-size: 20px;
+}
+.etoile {
 
+    color: red;
+     font-size: 34px
+}
 
 .background-container {
     position: fixed; /* Pour positionner l'image de fond par rapport à la fenêtre du navigateur */
@@ -23,10 +32,10 @@ body {
 }
 .content-container {
     background-color: white; /* Fond blanc pour le contenu */
-    padding: 20px; /* Ajoutez de la marge pour espacer le contenu du bord */
+    padding: 20px; 
 }
 
 .white-background {
     background-color: white;
-    padding: 20px; /* Ajoutez la marge intérieure appropriée selon vos besoins */
+    padding: 20px; 
 }

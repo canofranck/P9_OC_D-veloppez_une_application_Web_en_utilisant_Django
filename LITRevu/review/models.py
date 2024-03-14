@@ -19,8 +19,12 @@ class Ticket(models.Model):
     """
 
     title = models.CharField(max_length=128, name="title")
-    description = models.CharField(max_length=2048, blank=True, name="description")
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    description = models.CharField(
+        max_length=2048, blank=True, name="description"
+    )
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
     image = models.ImageField(null=True, blank=True, name="image")
     time_created = models.DateTimeField(auto_now_add=True)
 
@@ -65,9 +69,13 @@ class Review(models.Model):
         validators=[MinValueValidator(0), MaxValueValidator(5)],
         verbose_name="notation",
     )
-    user = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    user = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+    )
     headline = models.CharField(max_length=128, verbose_name="title")
-    body = models.CharField(max_length=8192, blank=True, verbose_name="comments")
+    body = models.CharField(
+        max_length=8192, blank=True, verbose_name="comments"
+    )
     time_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -87,7 +95,9 @@ class UserFollows(models.Model):
     """
 
     user = models.ForeignKey(
-        to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="following"
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="following",
     )
 
     followed_user = models.ForeignKey(
@@ -99,8 +109,8 @@ class UserFollows(models.Model):
     class Meta:
         """Options du modèle UserFollows."""
 
-        # garantit qu'il n'y a pas d'instances UserFollows multiples pour les paires unique
-        # utilisateur-utilisateur_suivi
+        # garantit qu'il n'y a pas d'instances UserFollows multiples pour les
+        # paires unique
         unique_together = (
             "user",
             "followed_user",

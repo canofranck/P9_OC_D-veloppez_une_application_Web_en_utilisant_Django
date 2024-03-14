@@ -26,8 +26,8 @@ class TicketForm(forms.ModelForm):
 class ReviewForm(forms.ModelForm):
     """Formulaire pour la création de critiques.
 
-    Ce formulaire est utilisé pour créer de nouvelles critiques associées à un ticket.
-    Il inclut les champs titre, notation et commentaire.
+    Ce formulaire est utilisé pour créer de nouvelles critiques associées à
+    un ticket. Il inclut les champs titre, notation et commentaire.
 
     Attributes:
         rating: Champ caché pour la notation de la critique.
@@ -47,7 +47,8 @@ class ReviewForm(forms.ModelForm):
 class FollowUsersForm(forms.ModelForm):
     """Formulaire pour suivre d'autres utilisateurs.
 
-    Ce formulaire est utilisé pour permettre à un utilisateur de suivre un autre utilisateur.
+    Ce formulaire est utilisé pour permettre à un utilisateur de suivre un
+    autre utilisateur.
     Il inclut un champ pour entrer le nom d'utilisateur à suivre.
 
     Attributes:
@@ -55,7 +56,7 @@ class FollowUsersForm(forms.ModelForm):
     """
 
     follows = forms.CharField(
-        label="",
+        label="Nom utilisateur à suivre",
         max_length=128,
         widget=forms.TextInput(
             attrs={"placeholder": "Entrez le nom d'utilisateur à suivre"}
@@ -69,7 +70,8 @@ class FollowUsersForm(forms.ModelForm):
     def clean_follows(self):
         """Valide le nom d'utilisateur à suivre.
 
-        Cette méthode vérifie si le nom d'utilisateur entré existe dans la base de données.
+        Cette méthode vérifie si le nom d'utilisateur entré existe dans la
+        base de données.
         Si l'utilisateur n'existe pas, une ValidationError est levée.
 
         Returns:

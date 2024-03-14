@@ -68,7 +68,8 @@ def create_ticket(request):
         request (HttpRequest): L'objet de requête HTTP Django.
 
     Returns:
-        HttpResponse: La réponse HTTP contenant le formulaire de création de ticket.
+        HttpResponse: La réponse HTTP contenant le formulaire de création de
+                      ticket.
 
     Raises:
         Aucune exception n'est levée.
@@ -96,7 +97,8 @@ def edit_ticket(request, ticket_id):
         ticket_id (int): L'identifiant du ticket à modifier.
 
     Returns:
-        HttpResponse: La réponse HTTP contenant le formulaire d'édition de ticket.
+        HttpResponse: La réponse HTTP contenant le formulaire d'édition de
+        ticket.
 
     Raises:
         Aucune exception n'est levée.
@@ -108,14 +110,18 @@ def edit_ticket(request, ticket_id):
             return redirect("error_change_ticket", ticket.id)
         else:
             if request.method == "POST":
-                form = forms.TicketForm(request.POST, request.FILES, instance=ticket)
+                form = forms.TicketForm(
+                    request.POST, request.FILES, instance=ticket
+                )
                 if form.is_valid():
                     ticket_save = form.save(commit=False)
                     ticket_save.user = request.user
                     ticket_save.save()
-                    return redirect("home")
+                    return redirect("edit_post")
     return render(
-        request, "review/edit_ticket.html", context={"ticket": ticket, "form": form}
+        request,
+        "review/edit_ticket.html",
+        context={"ticket": ticket, "form": form},
     )
 
 
@@ -132,8 +138,8 @@ def delete_ticket(request, ticket_id):
         ticket_id (int): L'identifiant du ticket à supprimer.
 
     Returns:
-        HttpResponseRedirect: Redirige l'utilisateur vers la page d'accueil ou une autre
-        page appropriée après la suppression du ticket.
+        HttpResponseRedirect: Redirige l'utilisateur vers la page d'accueil ou
+        une autre page appropriée après la suppression du ticket.
 
     Raises:
         Http404: Si le ticket spécifié n'existe pas.
@@ -148,11 +154,10 @@ def delete_ticket(request, ticket_id):
 
     if request.method == "POST":
         ticket.delete()
-        return redirect(
-            "home"
-        )  # Redirigez l'utilisateur vers la page d'accueil ou une autre page appropriée après la suppression du ticket
-
-    return render(request, "review/delete_ticket.html", context={"ticket": ticket})
+        return redirect("home")
+    return render(
+        request, "review/delete_ticket.html", context={"ticket": ticket}
+    )
 
 
 @login_required
@@ -164,10 +169,12 @@ def error_delete_ticket(request, ticket_id):
 
     Args:
         request (HttpRequest): L'objet HttpRequest reçu par la vue.
-        ticket_id (int): L'identifiant du ticket pour lequel la suppression a échoué.
+        ticket_id (int): L'identifiant du ticket pour lequel la suppression
+        a échoué.
 
     Returns:
-        HttpResponse: La réponse HTTP affichant la page d'erreur avec le ticket concerné.
+        HttpResponse: La réponse HTTP affichant la page d'erreur avec le
+        ticket concerné.
 
     Raises:
         Http404: Si le ticket spécifié n'existe pas.
@@ -182,36 +189,41 @@ def error_delete_ticket(request, ticket_id):
 def ticket_detail(request, ticket_id):
     """Affiche les détails d'un ticket.
 
-    Cette fonction récupère les détails d'un ticket spécifié à partir de son identifiant
-    et les affiche sur une page dédiée.
+    Cette fonction récupère les détails d'un ticket spécifié à partir de son
+    identifiant et les affiche sur une page dédiée.
 
     Args:
         request (HttpRequest): L'objet HttpRequest reçu par la vue.
         ticket_id (int): L'identifiant du ticket à afficher en détail.
 
     Returns:
-        HttpResponse: La réponse HTTP affichant les détails du ticket sur la page de détail.
+        HttpResponse: La réponse HTTP affichant les détails du ticket sur la
+        page de détail.
 
     Raises:
         Http404: Si le ticket spécifié n'existe pas.
     """
     ticket = get_object_or_404(models.Ticket, id=ticket_id)
-    return render(request, "review/ticket_detail.html", context={"ticket": ticket})
+    return render(
+        request, "review/ticket_detail.html", context={"ticket": ticket}
+    )
 
 
 @login_required
 def create_review(request, ticket_id):
     """Crée une nouvelle critique.
 
-    Cette fonction permet à un utilisateur connecté de créer une nouvelle critique
-    pour un ticket spécifié.
+    Cette fonction permet à un utilisateur connecté de créer une nouvelle
+    critique pour un ticket spécifié.
 
     Args:
         request (HttpRequest): L'objet HttpRequest reçu par la vue.
-        ticket_id (int): L'identifiant du ticket pour lequel la critique est créée.
+        ticket_id (int): L'identifiant du ticket pour lequel la critique
+        est crée.
 
     Returns:
-        HttpResponseRedirect: Redirige l'utilisateur vers la page d'accueil après la création de la critique.
+        HttpResponseRedirect: Redirige l'utilisateur vers la page d'accueil
+        après la création de la critique.
 
     Raises:
         Http404: Si le ticket spécifié n'existe pas.
@@ -233,7 +245,9 @@ def create_review(request, ticket_id):
             # Afficher les erreurs dans le formulaire
             print(form.errors)
     return render(
-        request, "review/create_review.html", context={"ticket": ticket, "form": form}
+        request,
+        "review/create_review.html",
+        context={"ticket": ticket, "form": form},
     )
 
 
@@ -241,7 +255,8 @@ def create_review(request, ticket_id):
 def edit_review(request, ticket_id, review_id):
     """Modifie une critique existante.
 
-    Cette fonction permet à un utilisateur connecté de modifier une critique existante.
+    Cette fonction permet à un utilisateur connecté de modifier une critique
+    existante.
 
     Args:
         request (HttpRequest): L'objet HttpRequest reçu par la vue.
@@ -249,8 +264,8 @@ def edit_review(request, ticket_id, review_id):
         review_id (int): L'identifiant de la critique à modifier.
 
     Returns:
-        HttpResponseRedirect: Redirige l'utilisateur vers la page de modification après avoir enregistré
-        les modifications.
+        HttpResponseRedirect: Redirige l'utilisateur vers la page de
+        modification après avoir enregistré les modifications.
 
     Raises:
         Http404: Si le ticket ou la critique spécifiée n'existe pas.
@@ -265,7 +280,7 @@ def edit_review(request, ticket_id, review_id):
             review.user = request.user
             review.ticket = ticket
             review.save()
-            return redirect("post_edit")
+            return redirect("edit_post")
     else:
         form = forms.ReviewForm(
             instance=review
@@ -282,7 +297,8 @@ def edit_review(request, ticket_id, review_id):
 def delete_review(request, ticket_id, review_id):
     """Supprime une critique existante.
 
-    Cette fonction permet à un utilisateur connecté de supprimer une critique existante.
+    Cette fonction permet à un utilisateur connecté de supprimer une critique
+    existante.
 
     Args:
         request (HttpRequest): L'objet HttpRequest reçu par la vue.
@@ -290,7 +306,8 @@ def delete_review(request, ticket_id, review_id):
         review_id (int): L'identifiant de la critique à supprimer.
 
     Returns:
-        HttpResponseRedirect: Redirige l'utilisateur vers la page de modification après la suppression de la critique.
+        HttpResponseRedirect: Redirige l'utilisateur vers la page de
+        modification après la suppression de la critique.
 
     Raises:
         Http404: Si le ticket ou la critique spécifiée n'existe pas.
@@ -305,7 +322,7 @@ def delete_review(request, ticket_id, review_id):
 
             if request.method == "POST":
                 review.delete()
-                return redirect("post_edit")
+                return redirect("edit_post")
 
     return render(
         request,
@@ -318,7 +335,8 @@ def delete_review(request, ticket_id, review_id):
 def review_detail(request, ticket_id, review_id):
     """Affiche les détails d'une critique.
 
-    Cette fonction récupère les détails d'une critique spécifique et les affiche à l'utilisateur.
+    Cette fonction récupère les détails d'une critique spécifique et les
+    affiche à l'utilisateur.
 
     Args:
         request (HttpRequest): L'objet HttpRequest reçu par la vue.
@@ -326,7 +344,8 @@ def review_detail(request, ticket_id, review_id):
         review_id (int): L'identifiant de la critique à afficher.
 
     Returns:
-        HttpResponse: La réponse HTTP contenant les détails de la critique demandée.
+        HttpResponse: La réponse HTTP contenant les détails de la critique
+        demandée.
 
     Raises:
         Http404: Si le ticket ou la critique spécifiée n'existe pas.
@@ -344,16 +363,17 @@ def review_detail(request, ticket_id, review_id):
 def follow_users(request):
     """Permet à l'utilisateur de suivre d'autres utilisateurs.
 
-    Cette fonction permet à l'utilisateur connecté de suivre d'autres utilisateurs en saisissant
-    leur nom d'utilisateur.
-    Elle affiche également les utilisateurs suivis par l'utilisateur actuel ainsi que ceux qui le suivent.
+    Cette fonction permet à l'utilisateur connecté de suivre d'autres
+    utilisateurs en saisissant leur nom d'utilisateur.
+    Elle affiche également les utilisateurs suivis par l'utilisateur actuel
+    ainsi que ceux qui le suivent.
 
     Args:
         request (HttpRequest): L'objet HttpRequest reçu par la vue.
 
     Returns:
-        HttpResponse: La réponse HTTP contenant le formulaire pour suivre les utilisateurs et les listes
-        des utilisateurs suivis et des followers.
+        HttpResponse: La réponse HTTP contenant le formulaire pour suivre les
+        utilisateurs et les listes des utilisateurs suivis et des followers.
 
     Raises:
         Aucune exception n'est levée.
@@ -367,23 +387,27 @@ def follow_users(request):
     ).values_list("user_id", flat=True)
 
     print(
-        "IDs des utilisateurs suivis par l'utilisateur connecté :", followed_users_ids
+        "IDs des utilisateurs suivis par l'utilisateur connecté :",
+        followed_users_ids,
     )
-    print("IDs des utilisateurs abonnés à l'utilisateur connecté :", followers_ids)
+    print(
+        "IDs des utilisateurs abonnés à l'utilisateur connecté :",
+        followers_ids,
+    )
 
-    followed_users = User.objects.filter(id__in=followed_users_ids).values_list(
-        "username", flat=True
-    )
+    followed_users = User.objects.filter(
+        id__in=followed_users_ids
+    ).values_list("username", flat=True)
     followers = User.objects.filter(id__in=followers_ids).values_list(
         "username", flat=True
     )
 
     print(
-        "Noms d'utilisateur des utilisateurs suivis par l'utilisateur connecté :",
+        "Noms des utilisateurs suivis par l'utilisateur connecté :",
         followed_users,
     )
     print(
-        "Noms d'utilisateur des utilisateurs abonnés à l'utilisateur connecté :",
+        "Noms des utilisateurs abonnés à l'utilisateur connecté :",
         followers,
     )
     if request.method == "POST":
@@ -394,7 +418,8 @@ def follow_users(request):
                 followed_user = User.objects.get(username=username)
                 if followed_user != request.user:
                     models.UserFollows.objects.get_or_create(
-                        user_id=request.user.id, followed_user_id=followed_user.id
+                        user_id=request.user.id,
+                        followed_user_id=followed_user.id,
                     )
                 else:
                     messages.error(
@@ -416,20 +441,24 @@ def follow_users(request):
 
 @login_required
 def delete_follow(request, followed_user):
-    """Permet à l'utilisateur de supprimer un abonnement à un autre utilisateur.
+    """Permet à l'utilisateur de supprimer un abonnement à un autre
+    utilisateur.
 
-    Cette fonction permet à l'utilisateur connecté de supprimer un abonnement à un autre utilisateur.
-    Si la méthode de la requête est POST, elle supprime l'abonnement correspondant dans la base de données
-    et redirige l'utilisateur vers une autre page. Sinon, elle affiche la page de confirmation de suppression
-    de l'abonnement.
+    Cette fonction permet à l'utilisateur connecté de supprimer un abonnement
+    à un autre utilisateur.
+    Si la méthode de la requête est POST, elle supprime l'abonnement
+    correspondant dans la base de données
+    et redirige l'utilisateur vers une autre page. Sinon, elle affiche la page
+    de confirmation de suppression de l'abonnement.
 
     Args:
         request (HttpRequest): L'objet HttpRequest reçu par la vue.
         followed_user (str): Le nom d'utilisateur de l'utilisateur suivi.
 
     Returns:
-        HttpResponse: La réponse HTTP redirigeant vers une autre page si la méthode de la requête est POST,
-                      sinon la page de confirmation de suppression de l'abonnement.
+        HttpResponse: La réponse HTTP redirigeant vers une autre page si la
+        méthode de la requête est POST,sinon la page de confirmation de
+        suppression de l'abonnement.
 
     Raises:
         Aucune exception n'est levée.
@@ -453,18 +482,19 @@ def delete_follow(request, followed_user):
 
 
 @login_required
-def post_edit(request):
+def edit_post(request):
     """Affiche la vue de l'édition des publications de l'utilisateur.
 
-    Cette fonction récupère tous les tickets et les critiques associés à l'utilisateur connecté,
-    les trie par date de création décroissante, puis les passe à la vue de l'édition des publications
-    pour affichage.
+    Cette fonction récupère tous les tickets et les critiques associés à
+    l'utilisateur connecté,les trie par date de création décroissante,
+    puis les passe à la vue de l'édition des publications pour affichage.
 
     Args:
         request (HttpRequest): L'objet HttpRequest reçu par la vue.
 
     Returns:
-        HttpResponse: La réponse HTTP contenant la vue de l'édition des publications de l'utilisateur.
+        HttpResponse: La réponse HTTP contenant la vue de l'édition des
+        publications de l'utilisateur.
 
     Raises:
         Aucune exception n'est levée.
@@ -479,7 +509,7 @@ def post_edit(request):
     )
 
     context = {"tickets_and_reviews": tickets_and_reviews}
-    return render(request, "review/post_edit.html", context=context)
+    return render(request, "review/edit_post.html", context=context)
 
 
 @login_required
@@ -494,8 +524,8 @@ def create_ticket_and_review(request):
         request (HttpRequest): L'objet HttpRequest reçu par la vue.
 
     Returns:
-        HttpResponse: La réponse HTTP redirigeant l'utilisateur vers la page d'accueil
-        après la création réussie du ticket et de la critique.
+        HttpResponse: La réponse HTTP redirigeant l'utilisateur vers la page
+        d'accueil après la création réussie du ticket et de la critique.
 
     Raises:
         Aucune exception n'est levée.

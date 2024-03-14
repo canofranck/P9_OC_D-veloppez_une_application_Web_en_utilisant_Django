@@ -1,88 +1,86 @@
 {% extends 'base.html' %} {% block content %} {% load review_extras %} {% load
-crispy_forms_tags %}
-<div class="px-5 py-2 container">
-  <div class="white-background"> 
-  <div class="row pt-1 pb-3">
-    <h2 class="col text-center">
-      Modification de la critique concernant le ticket {{ ticket.title }}
-    </h2>
-  </div>
+  crispy_forms_tags %}
+  <div class="px-5 py-2 container">
+    <div class="white-background">
+      <div class="row pt-1 pb-3">
+        <h1 class="col text-center">
+          Modification de la critique concernant le ticket {{ ticket.title }}
+        </h1>
+      </div>
 
-  <div class="row pt-1 pb-3">
-    <div class="px-5 py-2 container border border-2 border-dark rounded-4">
-      <div class="row py-2">
-        <h4 class="col text-start">
-          Vous êtes en train de poster en réponse à {{ticket.user}}
-        </h4>
+      <div class="row pt-1 pb-3">
+        <div class="px-5 py-2 container border border-2 border-dark rounded-4">
+          <div class="row py-2">
+            <h2 class="col text-start">
+              Vous êtes en train de poster en réponse à {{ticket.user}}
+            </h2>
+          </div>
+          <div class="px-5 py-2 container border border-2 border-dark rounded-4">
+            <div class="row py-1">
+              <h3 class="col fs-5 text-start">
+                Critique demandée par {% get_poster_display ticket.user %}
+              </h3>
+              <h4 class="col text-end fw-light fst-italic">
+                édité le {{ ticket.time_created }}
+              </h4>
+            </div>
+            <div class="row py-1">
+              <p class="col text-start">{{ ticket.title }}</p>
+            </div>
+            <div class="row py-1">
+              <p class="col text-start">Description : {{ ticket.description }}</p>
+            </div>
+            <div class="row py-1">
+              {% if ticket.image %}
+                <img
+                  class="col-2 text-start border border-secondary"
+                  src="{{ ticket.image.url }}"
+                  alt="Image de la review"
+                  title="Image descriptive de la review"
+                  aria-label="IMAGE DE LA REVIEW"
+                />
+              {% endif %}
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="px-5 py-2 container border border-2 border-dark rounded-4">
-        <div class="row py-1">
-          <p class="col fs-5 text-start">
-            <a
-              class="col link-secondary link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover"
-              href="{% url 'ticket_detail' ticket.id %}"
-            >
-              Critique demandée par {% get_poster_display ticket.user %}
-            </a>
-          </p>
-          <p class="col text-end fw-light fst-italic">
-            édité le {{ ticket.time_created }}
-          </p>
-        </div>
-        <div class="row py-1">
-          <p class="col text-start">{{ ticket.title }}</p>
-        </div>
-        <div class="row py-1">
-          <p class="col text-start">Description : {{ ticket.description }}</p>
-        </div>
-        <div class="row py-1">
-          {% if ticket.image %}
-          <img
-            class="col-2 text-start border border-secondary"
-            src="{{ ticket.image.url }}"
-          />
-          {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="row pt-1 pb-3">
-    <div class="px-5 py-2 container border border-2 border-dark rounded-4">
-      <div class="row py-2">
-        <h3 class="col text-center">Critique</h3>
-      </div>
-      <form
-        class="row pt-1 pb-3 justify-content-end"
-        method="post"
-        enctype="multipart/form-data"
-      >
-        {% csrf_token %} {{ form.headline.label_tag }} {{ form.headline }}
-        <br />
-        {{ form.body.label_tag }} {{ form.body }}
-        <br />
+      <div class="row pt-1 pb-3">
+        <div class="px-5 py-2 container border border-2 border-dark rounded-4">
+          <div class="row py-2">
+            <h3 class="col text-center">Critique</h3>
+          </div>
+          <form
+            class="row pt-1 pb-3 justify-content-end"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            {% csrf_token %} {{ form.headline.label_tag }} {{ form.headline }}
+            <br />
+            {{ form.body.label_tag }} {{ form.body }}
+            <br />
 
         <!-- Affichage des étoiles -->
-        <div class="rating-stars" id="ratingStars">
-          {% for i in "*****" %}
-          <span class="star" data-rating="{{ forloop.counter }}"
-            >{{ '&#9733;' }}</span
-          >
-          {% endfor %}
-        </div>
+            <div class="rating-stars" id="ratingStars">
+              {% for i in "*****" %}
+                <span class="star" data-rating="{{ forloop.counter }}"
+                >{{ '&#9733;' }}</span
+                  >
+              {% endfor %}
+            </div>
 
-        <input
-          type="hidden"
-          name="rating"
-          id="ratingInput"
-          value="{{ review.rating }}"
-        />
-        <button class="col-2 btn btn-outline-secondary" type="submit">
-          Modifier
-        </button>
-      </form>
+            <input
+              type="hidden"
+              name="rating"
+              id="ratingInput"
+              value="{{ review.rating }}"
+            />
+            <button class="col-2 btn btn-outline-secondary" type="submit">
+              Modifier
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-</div>
 {% endblock content %}

@@ -20,7 +20,8 @@ class SignupForm(UserCreationForm):
         """
         Métadonnées du formulaire d'inscription.
 
-        Les métadonnées spécifient le modèle à utiliser et les champs à inclure.
+        Les métadonnées spécifient le modèle à utiliser et les champs
+        à inclure.
 
         Attributes:
             model (User): Le modèle d'utilisateur à utiliser.
@@ -49,7 +50,8 @@ class UploadProfilePhotoForm(forms.ModelForm):
         """
         Métadonnées du formulaire de téléchargement de photo de profil.
 
-        Les métadonnées spécifient le modèle à utiliser et les champs à inclure.
+        Les métadonnées spécifient le modèle à utiliser et les champs
+        à inclure.
 
         Attributes:
             model (User): Le modèle d'utilisateur à utiliser.

@@ -66,11 +66,17 @@ Vous pouvez ensuite utiliser l'applicaton à l'adresse suivante:
 http://127.0.0.1:8000
 ```
 Administration du site :
+```
 admin /admindjango
-
+```
 Utilisateur de test :
+```
 userone/ S3cret!!!
+```
 usertwo/ S3cret!!!
+```
 usethree/ S3cret!!!
+```
 userfour/ S3cret!!!
+```
 

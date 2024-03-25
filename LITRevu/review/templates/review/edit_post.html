@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 {% load review_extras %}
 {% block content %}
-  {% load static %}
+{% load static %}
 
   <div class="container text-center px-5">
     <div class="white-background">
       <div class="row py-4">
         <h1>Mes Posts</h1>
       </div>
+      <div id="ticketsAndReviewsContainer">
       {% for instance in tickets_and_reviews %}
         {% if instance|model_type == 'Ticket' %}
           <div class="row px-5 py-4">
@@ -19,6 +20,12 @@
           </div>
         {% endif %}
       {% endfor %}
+    </div>
+      {% if tickets_and_reviews.has_next %}
+          <div class="row justify-content-center py-4">
+            <button id="loadMoreBtn" class="col-2 btn btn-outline-secondary me-3">Afficher plus</button>
+          </div>
+        {% endif %}
     </div>
   </div>
 {% endblock content%}

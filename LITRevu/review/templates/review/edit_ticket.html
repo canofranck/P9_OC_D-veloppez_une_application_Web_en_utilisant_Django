@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% block content %} {% load crispy_forms_tags %}
+{% extends 'base.html' %}
+{% block content %}
+{% load crispy_forms_tags %}
   <div class="px-5 py-2 container">
     <div class="white-background">
       <div class="px-5 py-2 container border border-2 border-dark rounded-4">
@@ -12,7 +14,8 @@
           method="post"
           enctype="multipart/form-data"
         >
-          {% csrf_token %} {{ form|crispy }}
+          {% csrf_token %}
+          {{ form|crispy }}
           <button class="col-2 btn btn-outline-secondary" type="submit">
             Modifier
           </button>

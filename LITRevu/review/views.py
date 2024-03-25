@@ -507,7 +507,15 @@ def edit_post(request):
         key=lambda instance: instance.time_created,
         reverse=True,
     )
+    paginator = Paginator(tickets_and_reviews, 2)  # Nombre d'éléments par page
 
+    page_number = request.GET.get("page")
+    try:
+        tickets_and_reviews = paginator.page(page_number)
+    except PageNotAnInteger:
+        tickets_and_reviews = paginator.page(1)
+    except EmptyPage:
+        tickets_and_reviews = paginator.page(paginator.num_pages)
     context = {"tickets_and_reviews": tickets_and_reviews}
     return render(request, "review/edit_post.html", context=context)
 

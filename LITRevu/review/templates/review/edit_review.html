@@ -1,5 +1,7 @@
-{% extends 'base.html' %} {% block content %} {% load review_extras %} {% load
-  crispy_forms_tags %}
+{% extends 'base.html' %}
+{% block content %}
+{% load review_extras %}
+{% load crispy_forms_tags %}
   <div class="px-5 py-2 container">
     <div class="white-background">
       <div class="row pt-1 pb-3">
@@ -55,9 +57,12 @@
             method="post"
             enctype="multipart/form-data"
           >
-            {% csrf_token %} {{ form.headline.label_tag }} {{ form.headline }}
+            {% csrf_token %}
+            {{ form.headline.label_tag }}
+            {{ form.headline }}
             <br />
-            {{ form.body.label_tag }} {{ form.body }}
+            {{ form.body.label_tag }}
+            {{ form.body }}
             <br />
 
         <!-- Affichage des étoiles -->

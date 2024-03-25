@@ -1,4 +1,5 @@
-document.addEventListener("DOMContentLoaded", function() {
+// script star rating 
+document.addEventListener("DOMContentLoaded", function () {
     const stars = document.querySelectorAll(".star");
     const ratingInput = document.getElementById('ratingInput');
 
@@ -12,11 +13,14 @@ document.addEventListener("DOMContentLoaded", function() {
     function selectStars(rating) {
         ratingInput.value = rating;
         stars.forEach(function(star) {
-            const starRating = parseInt(star.getAttribute("data-rating"));
+          const starRating = parseInt(star.getAttribute("data-rating"));
+          
             star.style.color = (starRating <= rating) ? "red" : "black";
         });
     }
 });
+
+// script bouton plus 
 
   document.addEventListener("DOMContentLoaded", function() {
     const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -41,4 +45,7 @@ document.addEventListener("DOMContentLoaded", function() {
         .catch(error => console.error("Error fetching data:", error));
     });
   });
+
+   
+   
 

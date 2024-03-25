@@ -67,6 +67,7 @@ http://127.0.0.1:8000
 ```
 Administration du site :
 ```
+http://127.0.0.1:8000/admin
 admin /admindjango
 ```
 Utilisateur de test :

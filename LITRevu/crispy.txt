@@ -1,0 +1,6 @@
+
+pip install django-crispy-forms
+pip install crispy-bootstrap5cd env
+
+https://medium.com/@devsumitg/how-to-add-bootstrap-5-to-django-framework-47817c9d1adf#:~:text=To%20add%20Bootstrap%205%20to%20your%20Django%20project%2C%20you%20need,and%20JavaScript%20files%20to%20your
+

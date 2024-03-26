@@ -3,10 +3,10 @@
 <div class="px-5 py-2 container border border-2 border-dark rounded-4">
   <div class="row py-1">
     <div class="col text-start">
-      <h2>{% get_poster_display review.user %} reponds à une critque</h2>
+      <h2>Critique publiée par {% get_poster_display review.user %}</h2>
     </div>
     <div class="col text-end">
-      <h3 class="fw-light fst-italic">posté le {{ review.time_created }}</h3>
+      <h3 class="fw-light fst-italic">postée le {{ review.time_created }}</h3>
     </div>
   </div>
 
@@ -35,7 +35,7 @@
         </div>
         <div class="col text-end">
           <p class="fw-light fst-italic">
-            posté le {{ review.ticket.time_created}}
+            postée le {{ review.ticket.time_created}}
           </p>
         </div>
       </div>

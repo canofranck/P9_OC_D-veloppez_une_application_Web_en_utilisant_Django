@@ -16,7 +16,9 @@ class TicketForm(forms.ModelForm):
         description: Champ de texte multiligne pour la description du ticket.
     """
 
-    description = forms.CharField(label="description", widget=forms.Textarea)
+    title = forms.CharField(label="Titre", widget=forms.TextInput)
+    description = forms.CharField(label="Description", widget=forms.Textarea)
+    image = forms.CharField(label="Image :")
 
     class Meta:
         model = models.Ticket
@@ -37,7 +39,8 @@ class ReviewForm(forms.ModelForm):
     rating = forms.IntegerField(
         label="Notation", widget=forms.HiddenInput(), required=True
     )
-    body = forms.CharField(label="comments", widget=forms.Textarea)
+    body = forms.CharField(label="Commentaire", widget=forms.Textarea)
+    headline = forms.CharField(label="Titre", widget=forms.TextInput)
 
     class Meta:
         model = models.Review
@@ -56,7 +59,7 @@ class FollowUsersForm(forms.ModelForm):
     """
 
     follows = forms.CharField(
-        label="Nom utilisateur à suivre",
+        label="Nom d'utilisateur à suivre",
         max_length=128,
         widget=forms.TextInput(
             attrs={"placeholder": "Entrez le nom d'utilisateur à suivre"}

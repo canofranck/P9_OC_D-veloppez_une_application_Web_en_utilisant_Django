@@ -18,7 +18,7 @@ class TicketForm(forms.ModelForm):
 
     title = forms.CharField(label="Titre", widget=forms.TextInput)
     description = forms.CharField(label="Description", widget=forms.Textarea)
-    image = forms.CharField(label="Image :")
+    image = forms.ImageField(label="Image :")
 
     class Meta:
         model = models.Ticket

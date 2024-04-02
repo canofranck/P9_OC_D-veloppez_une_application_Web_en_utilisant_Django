@@ -19,19 +19,25 @@ def home(request):
         Q(
             user_id__in=models.UserFollows.objects.filter(
                 user_id=current_user_id
-            ).values("followed_user_id")
+            ).values(
+                "followed_user_id"
+            )  # tickets des users suivis
         )
-        | Q(user_id=current_user_id)
+        | Q(user_id=current_user_id)  # ticket cree par l user
     )
 
     reviews = models.Review.objects.filter(
         Q(
             user_id__in=models.UserFollows.objects.filter(
                 user_id=current_user_id
-            ).values("followed_user_id")
+            ).values(
+                "followed_user_id"
+            )  # recupere les reviews ou l id user est presente parmi les user suivis
         )
-        | Q(user_id=current_user_id)
-        | Q(ticket__user_id=current_user_id)
+        | Q(user_id=current_user_id)  # review des avis crée par l user
+        | Q(
+            ticket__user_id=current_user_id
+        )  # reviews liés aux tickets créés par l'user
     )
 
     tickets_and_reviews = sorted(

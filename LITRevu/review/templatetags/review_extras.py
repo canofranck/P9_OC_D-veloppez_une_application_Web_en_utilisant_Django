@@ -3,6 +3,7 @@ from django import template
 register = template.Library()
 
 
+# creation de filtres perso
 @register.filter
 def model_type(value):
     return type(value).__name__
